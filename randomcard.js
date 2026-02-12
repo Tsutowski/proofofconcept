@@ -1,8 +1,9 @@
 const url1 = "https://api.scryfall.com/cards/random";
-const url2 = 'https://api.justtcg.com/v1/cards'
+
+url2 = 'https://api.justtcg.com/functions/v1/cards?tcgplayerId=162145';
+
 const TCGAPI_KEY = 'tcg_a2f7d4971ff2448b87a5dd24d8aa064e'
 fetch_image_data();
-
 
 
 async function fetch_image_data() {
@@ -14,7 +15,7 @@ async function fetch_image_data() {
         }
         const data = await response.json();
         const CardPic = data.image_uris.normal;
-        const sid = data.id;
+        tid = data.tcgplayer_id;
         const img = document.getElementById("cardImage");
 
         img.src = CardPic;
@@ -24,22 +25,28 @@ async function fetch_image_data() {
         console.error(error);
     }
 
-}
 
-async function fetch_price_data() {
-    try {
-        const response = await fetch(url2, { headers: { 'X-API-KEY': TCGAPI_KEY } });
-        url2.searchParams.append('scryfallId', sid);
-        if (!response.ok) {
-            throw new Error("No data found");
-        }
-        const result = await response.json;
-        const card = result.data;
-    } catch (error) {
-        console.error("error fetching price data");
-    }
+    url2 = url2.replace("162145", tid);
 
+    fetch(url2, {
+            method: 'GET',
+            headers: {
+                'x-api-key': TCGAPI_KEY
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(error);
+            }
+            return response.json();
 
+        })
+        .then(data => {
+            console.log('Card Price Data:', data);
+        })
+        .catch(error => {
+            console.error('Error fetching price:', error);
+        });
 
 
 }
