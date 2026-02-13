@@ -1,12 +1,12 @@
 const url1 = "https://api.scryfall.com/cards/random";
-
+const USER_AGENT = 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:147.0) Gecko/20100101 Firefox/147.0';
 
 fetch_image_data();
 
 
 async function fetch_image_data() {
     try {
-        const response = await fetch(url1);
+        const response = await fetch(url1, { headers: { 'User-Agent': USER_AGENT, 'Accept': '*\*' } });
         if (!response.ok) {
             throw new Error("no data found");
 
