@@ -7,28 +7,28 @@ fetch_image_data();
 
 async function fetch_image_data() {
     try {
-        const response = await fetch(url1, { mode: 'cors', headers: { 'User-Agent': USER_AGENT, 'Accept': '*\*', 'Access-Control-Allow-Origin': 'https://tsutowski.github.io/proofofconcept/' } });
+        const response = await fetch(url1, { mode: 'cors', headers: { 'User-Agent': USER_AGENT, 'Accept': 'application/json;q=0.9,*/*;q=0.8' } });
         if (!response.ok) {
             throw new Error("no data found");
 
         }
-        console.log(response.json());
+        //console.log(response.json());
 
-        // const data = await response.json();
-        // const CardPic = data.image_uris.normal;
-        // if (data.foil == true) {
-        //     cprice = data.prices.usd_foil;
-        // } else {
-        //     cprice = data.prices.usd;
-        // }
-        // const price = cprice;
-        // const box = document.getElementById("pricefield");
-        // box.innerHTML = box.innerHTML.replace("CardPrice", price);
+        const data = await response.json();
+        const CardPic = data.image_uris.normal;
+        if (data.foil == true) {
+            cprice = data.prices.usd_foil;
+        } else {
+            cprice = data.prices.usd;
+        }
+        const price = cprice;
+        const box = document.getElementById("pricefield");
+        box.innerHTML = box.innerHTML.replace("CardPrice", price);
 
-        // const img = document.getElementById("cardImage");
+        const img = document.getElementById("cardImage");
 
-        // img.src = CardPic;
-        // img.style.display = "block";
+        img.src = CardPic;
+        img.style.display = "block";
 
     } catch (error) {
         console.error(error);
